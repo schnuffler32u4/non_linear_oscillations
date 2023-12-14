@@ -48,7 +48,7 @@ plt.plot(t, sol_h[:, 1], 'm', label="y(t) h")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.savefig("q1_1.png")
+plt.savefig("q1_1.png", dpi=500)
 plt.close()
 
 Amplitudes = [0.5,1.25,1.85,1.95]   #Different Initial conditions for x(0)
@@ -72,7 +72,7 @@ for i in range(len(Amplitudes)):
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.savefig('q1_2.png')
+plt.savefig('q1_2.png', dpi=500)
 plt.close()
 
 #code for q1.3
@@ -94,7 +94,7 @@ plt.title("V(x) for a=0.1")
 plt.xlabel("x")
 plt.ylabel("V(x)")
 plt.grid()
-plt.savefig('q1_3.png')
+plt.savefig('q1_3.png', dpi=500)
 plt.close()
 #code for q1.4
 
@@ -131,7 +131,7 @@ plt.plot(t, solm2_ah[:, 1], 'k', label="y(t) ah")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.savefig('q1_4.png')
+plt.savefig('q1_4.png', dpi=500)
 plt.close()
 
 # Code for question 1.5 
@@ -146,7 +146,7 @@ plt.ylabel("$x(t)$")
 plt.title('Comparison of different values of $p$')
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.grid()
-plt.savefig('q1_5_motion.png')
+plt.savefig('q1_5_motion.png', dpi=500)
 plt.close()
 
 X2 = np.linspace(-10, 10, 500)
@@ -159,7 +159,7 @@ plt.xlabel("$x$")
 plt.ylabel("$V(x)$")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.grid()
-plt.savefig('q1_5_potential.png')
+plt.savefig('q1_5_potential.png', dpi=500)
 plt.close()
 
 #code for q2.1
@@ -189,7 +189,7 @@ for o in O:
     plt.ylabel('$x(t)$')
     plt.xlabel('$t$')
     plt.grid()
-    plt.savefig('q2_1_omega'+ str(o)+'.png')
+    plt.savefig('q2_1_omega'+ str(o)+'.png', dpi=500)
     plt.close()
 
 #code for q2.2
@@ -206,7 +206,7 @@ for o in O:
     plt.xlabel('$t$')
     plt.title('The Gorilla effect for $\omega=$' + str(o) + '$\, p=4$')
     plt.grid()
-    plt.savefig('q2_2_omega'+ str(o)+'.png')
+    plt.savefig('q2_2_omega'+ str(o)+'.png', dpi=500)
     plt.close()
 
 # code for q2.3
@@ -221,7 +221,7 @@ plt.ylabel('$x(t)$')
 plt.xlabel('$t$')
 plt.grid()
 plt.title('Demonstration of beats')
-plt.savefig('q2_3.png')
+plt.savefig('q2_3.png', dpi=500)
 plt.close()
 
 # code for q2.4
@@ -235,7 +235,7 @@ plt.ylabel('$x(t)$')
 plt.xlabel('$t$')
 plt.grid()
 plt.title('Comparison of frequencies for $p=2$')
-plt.savefig('q2_4_p2.png')
+plt.savefig('q2_4_p2.png', dpi=500)
 plt.close()
 
 for o in O:
@@ -247,5 +247,58 @@ plt.ylabel('$x(t)$')
 plt.xlabel('$t$')
 plt.grid()
 plt.title('Comparison of frequencies for $p=4$')
-plt.savefig('q2_4_p4.png')
+plt.savefig('q2_4_p4.png', dpi=500)
 plt.close()
+
+# code for q3.1
+
+def model_friction(u, t, m, k, p, o, F_0, b):
+    x, y = u
+    dzdt = [y, (F_0/m)*np.sin(o*t)-(k/m)*x**(p-1)- b*y]  # System of first order differential equations [y, y'] Where y=x'
+    return dzdt
+
+B = [0.01, 1, 100] 
+O = np.linspace(1,10,1000)
+
+for b in B:
+    amplitudes = [np.amax(odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))[:,0]) for o in O]
+    plt.plot(O, amplitudes, label='$A(\omega), \, b = $' + str(b))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$A(\omega)$')
+plt.xlabel('$\omega$')
+plt.grid()
+plt.title('The relationship between amplitude and frequency for different values of $b$')
+plt.savefig('q3_1.png', dpi=500)
+plt.close()
+
+# code for q3.2
+f = 0.01
+for b in B:
+    sol_friction = odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))
+    plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$\omega$')
+plt.grid()
+plt.title('The relationship between position and time for different values of $b, \, F_0=$'+str(f))
+plt.savefig('q3_2.png', dpi=500)
+plt.close()
+
+# code for 3.3
+F = [0.7, 7]
+for f in F:
+    for b in B:
+        sol_friction = odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))
+        plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
+
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.ylabel('$x(t)$')
+    plt.xlabel('$\omega$')
+    plt.grid()
+    plt.title('The relationship between position and time for different values of $b, \, F_0=$'+str(f))
+    plt.savefig('q3_3_f_' +str(f)+'.png', dpi=500)
+    plt.close()
+
+
