@@ -132,26 +132,22 @@ plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
 plt.show()
+plt.close()
+
+# Code for question 1.5 
 
 p=[2,4,6,8,10]
 
-x1 = np.zeros((len(t),len(p)))   #Create arrays to store results for x(t) & x'(t) for all the different amplitudes
-x1dot = np.zeros((len(t),len(p)))
-
-for i in range(len(p)):
-    solm2_p = odeint(model2, y0, t, args=(m, k, p[i]))
-    x1[:, i] = solm2_p[:, 0]
-    x1dot[:, i] = solm2_p[:, 1]
-
-for i in range(len(p)):
-    plt.plot(t, x1[:, i], label='p={}'.format(p[i]))
-    plt.xlabel('time')
-    plt.ylabel('x(t)')
+for P in p:
+    solm2_h=odeint(model2, y0, t, args=(m,k,P))
+    plt.plot(t, solm2_h[:, 0], 'r', label='$x(t), \, p=$'+str(P))
+plt.xlabel("$t$")
+plt.ylabel("$x(t)$")
+plt.title('Comparison of different values of $p$')
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.xlabel('t')
 plt.grid()
-plt.show()
-
+plt.savefig('Different_p.png')
+plt.close()
 
 X2 = np.linspace(-10, 10, 500)
 
