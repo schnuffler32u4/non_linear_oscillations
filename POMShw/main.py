@@ -140,7 +140,7 @@ p=[2,4,6,8,10]
 
 for P in p:
     solm2_h=odeint(model2, y0, t, args=(m,k,P))
-    plt.plot(t, solm2_h[:, 0], 'r', label='$x(t), \, p=$'+str(P))
+    plt.plot(t, solm2_h[:, 0], label='$x(t), \, p=$'+str(P))
 plt.xlabel("$t$")
 plt.ylabel("$x(t)$")
 plt.title('Comparison of different values of $p$')
