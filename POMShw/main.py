@@ -180,7 +180,7 @@ plt.show()
 #we keep p=2
 #we keep the same m, k and t
 
-o = 1 #we set omega as 1 for the first part of the exercise for simplicity
+o = 3 #we set omega as 1 for the first part of the exercise for simplicity
 t = np.linspace(0, 100, 200001)
 def model3(u, t, m, k, p, o, F_0):
     x, y = u
