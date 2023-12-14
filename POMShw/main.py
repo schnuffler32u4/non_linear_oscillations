@@ -208,3 +208,44 @@ for o in O:
     plt.grid()
     plt.savefig('q2_2_omega'+ str(o)+'.png')
     plt.close()
+
+# code for q2.3
+O = [0.5, 1.1, 2]
+f = 0.7
+for o in O:
+    solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
+    plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
+plt.grid()
+plt.title('Demonstration of beats')
+plt.savefig('q2_3.png')
+plt.close()
+
+# code for q2.4
+O = [1/10, 1/5, 1, 5, 10]
+for o in O:
+    solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
+    plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
+plt.grid()
+plt.title('Comparison of frequencies for $p=2$')
+plt.savefig('q2_4_p2.png')
+plt.close()
+
+for o in O:
+    solm3_F = odeint(model3, y0, t, args=(m, k, p2, o, f))
+    plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
+plt.grid()
+plt.title('Comparison of frequencies for $p=4$')
+plt.savefig('q2_4_p4.png')
+plt.close()
