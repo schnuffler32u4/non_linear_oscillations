@@ -169,7 +169,7 @@ plt.close()
 #we keep p=2
 #we keep the same m, k and t
 
-o = 3 #we set omega to a different value from the natural frequency of the system
+O = [1/4,1/2,4] #we set omega to a different value from the natural frequency of the system
 t = np.linspace(0, 100, 200001)
 def model3(u, t, m, k, p, o, F_0):
     x, y = u
@@ -177,24 +177,34 @@ def model3(u, t, m, k, p, o, F_0):
     return dzdt
 
 y0 = [1.5, 0]
+F = [1,20,50,200]
 
-F1 = 1
-F2 = 20
-F3 = 50
-F4 = 200
+for o in O:
+    for f in F:
+        solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
+        plt.plot(t, solm3_F[:, 0], label='$x(t), \, F=$' + str(f))
 
-solm3_F1 = odeint(model3, y0, t, args=(m, k, p1, o, F1))
-solm3_F2 = odeint(model3, y0, t, args=(m, k, p1, o, F2))
-solm3_F3 = odeint(model3, y0, t, args=(m, k, p1, o, F3))
-solm3_F4 = odeint(model3, y0, t, args=(m, k, p1, o, F4))
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.title('The Gorilla effect for $\omega=$' + str(o) + '$\, p=2$')
+    plt.ylabel('$x(t)$')
+    plt.xlabel('$t$')
+    plt.grid()
+    plt.savefig('q2_1_omega'+ str(o)+'.png')
+    plt.close()
 
-plt.plot(t, solm3_F1[:, 0], 'y', label='x(t) F1=1')
-plt.plot(t, solm3_F2[:, 0], 'r', label='x(t) F2=20')
-plt.plot(t, solm3_F3[:, 0], 'm', label='x(t) F3=50')
-plt.plot(t, solm3_F4[:, 0], 'b', label='x(t) F4=200')
-plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.ylabel('$x(t)$')
-plt.xlabel('$t$')
-plt.grid()
-plt.savefig('q2_2.png')
-plt.close()
+#code for q2.2
+
+# now setting p = 4
+
+for o in O:
+    for f in F:
+        solm3_F = odeint(model3, y0, t, args=(m, k, p2, o, f))
+        plt.plot(t, solm3_F[:, 0], label='$x(t), \, F=$' + str(f))
+
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.ylabel('$x(t)$')
+    plt.xlabel('$t$')
+    plt.title('The Gorilla effect for $\omega=$' + str(o) + '$\, p=4$')
+    plt.grid()
+    plt.savefig('q2_2_omega'+ str(o)+'.png')
+    plt.close()
