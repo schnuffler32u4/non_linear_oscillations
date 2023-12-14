@@ -48,8 +48,8 @@ plt.plot(t, sol_h[:, 1], 'm', label="y(t) h")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.show()
-
+plt.savefig("q1_1.png")
+plt.close()
 
 Amplitudes = [0.5,1.25,1.85,1.95]   #Different Initial conditions for x(0)
 
@@ -72,8 +72,8 @@ for i in range(len(Amplitudes)):
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.show()
-
+plt.savefig('q1_2.png')
+plt.close()
 
 #code for q1.3
 # plots the potentials for harmonic motion, V(x) = (1/2)kx^2, and anharmonic motion V(x) = (1/2)kx^2(1-(2/3)ax) for a=0.1
@@ -94,8 +94,8 @@ plt.title("V(x) for a=0.1")
 plt.xlabel("x")
 plt.ylabel("V(x)")
 plt.grid()
-plt.show()
-
+plt.savefig('q1_3.png')
+plt.close()
 #code for q1.4
 
 #Model 2 has a different EoM due to the change in potential
@@ -131,7 +131,7 @@ plt.plot(t, solm2_ah[:, 1], 'k', label="y(t) ah")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.show()
+plt.savefig('q1_4.png')
 plt.close()
 
 # Code for question 1.5 
@@ -146,28 +146,21 @@ plt.ylabel("$x(t)$")
 plt.title('Comparison of different values of $p$')
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.grid()
-plt.savefig('Different_p.png')
+plt.savefig('q1_5_motion.png')
 plt.close()
 
 X2 = np.linspace(-10, 10, 500)
 
-harmonicPotential1 = (1/2)*k*X2**2
-anharmonicPotential1 = np.zeros((len(t),len(X2))) #maybe this should be 3d?
+for P in p:
+     plt.plot(X2 ,(1 / P) * k * X2 ** P, label='$p=$' + str(P))
 
-for i in range(len(p)):
-     np.append(anharmonicPotential1[i], (1 / p[i]) * k * X2 ** p[i])
-
-plt.plot(X2, harmonicPotential1, label='Harmonic')
-
-for i in range(len(p)):
-    plt.plot(X2, anharmonicPotential1[i], label='Anharmonic', ls='--')
-plt.plot(X2, (1 / 4 * k * X2 ** 4), label='Anharmonic 4', ls='--')
-plt.legend(loc='upper center', bbox_to_anchor=(1.35, 1), shadow=True, ncol=1)
-plt.title("V(x) for different p values")
-plt.xlabel("x")
-plt.ylabel("V(x)")
+plt.title("$V(x)$ for different p values")
+plt.xlabel("$x$")
+plt.ylabel("$V(x)$")
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.grid()
-plt.show()
+plt.savefig('q1_5_potential.png')
+plt.close()
 
 #code for q2.1
 
@@ -176,7 +169,7 @@ plt.show()
 #we keep p=2
 #we keep the same m, k and t
 
-o = 3 #we set omega as 1 for the first part of the exercise for simplicity
+o = 3 #we set omega to a different value from the natural frequency of the system
 t = np.linspace(0, 100, 200001)
 def model3(u, t, m, k, p, o, F_0):
     x, y = u
@@ -200,8 +193,8 @@ plt.plot(t, solm3_F2[:, 0], 'r', label='x(t) F2=20')
 plt.plot(t, solm3_F3[:, 0], 'm', label='x(t) F3=50')
 plt.plot(t, solm3_F4[:, 0], 'b', label='x(t) F4=200')
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.xlabel('t')
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
 plt.grid()
-plt.show()
-
-
+plt.savefig('q2_2.png')
+plt.close()
