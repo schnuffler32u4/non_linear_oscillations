@@ -171,6 +171,7 @@ plt.close()
 
 O = [1/4,1/2,4] #we set omega to a different value from the natural frequency of the system
 t = np.linspace(0, 100, 200001)
+
 def model3(u, t, m, k, p, o, F_0):
     x, y = u
     dzdt = [y, (F_0/m)*np.sin(o*t)-(k/m)*x**(p-1)]  # System of first order differential equations [y, y'] Where y=x'
@@ -229,6 +230,7 @@ O = [1/10, 1/5, 1, 5, 10]
 for o in O:
     solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
     plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
 
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.ylabel('$x(t)$')
@@ -301,4 +303,77 @@ for f in F:
     plt.savefig('q3_3_f_' +str(f)+'.png', dpi=500)
     plt.close()
 
+solm3_F1o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F1))
+solm3_F2o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F2))
+solm3_F3o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F3))
+solm3_F4o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F4))
 
+plt.plot(t, solm3_F1o2[:, 0], 'y', label='x(t) F1=1, o2')
+plt.plot(t, solm3_F2o2[:, 0], 'r', label='x(t) F2=20, o2')
+plt.plot(t, solm3_F3o2[:, 0], 'm', label='x(t) F3=50, o2')
+plt.plot(t, solm3_F4o2[:, 0], 'b', label='x(t) F4=200, o2')
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.xlabel('t')
+plt.grid()
+plt.show()
+
+solm3_F1o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F1))
+solm3_F2o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F2))
+solm3_F3o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F3))
+solm3_F4o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F4))
+
+plt.plot(t, solm3_F1o3[:, 0], 'y', label='x(t) F1=1, o3')
+plt.plot(t, solm3_F2o3[:, 0], 'r', label='x(t) F2=20, o3')
+plt.plot(t, solm3_F3o3[:, 0], 'm', label='x(t) F3=50, o3')
+plt.plot(t, solm3_F4o3[:, 0], 'b', label='x(t) F4=200, o3')
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.xlabel('t')
+plt.grid()
+plt.show()
+
+#code for q2.2
+#same thing but p=4
+
+p1=4
+
+solm3_F1o1 = odeint(model3, y0, t, args=(m, k, p1, o1, F1))
+solm3_F2o1 = odeint(model3, y0, t, args=(m, k, p1, o1, F2))
+solm3_F3o1 = odeint(model3, y0, t, args=(m, k, p1, o1, F3))
+solm3_F4o1 = odeint(model3, y0, t, args=(m, k, p1, o1, F4))
+
+plt.plot(t, solm3_F1o1[:, 0], 'y', label='x(t) F1=1, o1')
+plt.plot(t, solm3_F2o1[:, 0], 'r', label='x(t) F2=20, o1')
+plt.plot(t, solm3_F3o1[:, 0], 'm', label='x(t) F3=50, o1')
+plt.plot(t, solm3_F4o1[:, 0], 'b', label='x(t) F4=200, o1')
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.xlabel('t')
+plt.grid()
+plt.show()
+
+solm3_F1o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F1))
+solm3_F2o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F2))
+solm3_F3o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F3))
+solm3_F4o2 = odeint(model3, y0, t, args=(m, k, p1, o2, F4))
+
+plt.plot(t, solm3_F1o2[:, 0], 'y', label='x(t) F1=1, o2')
+plt.plot(t, solm3_F2o2[:, 0], 'r', label='x(t) F2=20, o2')
+plt.plot(t, solm3_F3o2[:, 0], 'm', label='x(t) F3=50, o2')
+plt.plot(t, solm3_F4o2[:, 0], 'b', label='x(t) F4=200, o2')
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.xlabel('t')
+plt.grid()
+plt.show()
+
+solm3_F1o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F1))
+solm3_F2o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F2))
+solm3_F3o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F3))
+solm3_F4o3 = odeint(model3, y0, t, args=(m, k, p1, o3, F4))
+
+plt.plot(t, solm3_F1o3[:, 0], 'y', label='x(t) F1=1, o3')
+plt.plot(t, solm3_F2o3[:, 0], 'r', label='x(t) F2=20, o3')
+plt.plot(t, solm3_F3o3[:, 0], 'm', label='x(t) F3=50, o3')
+plt.plot(t, solm3_F4o3[:, 0], 'b', label='x(t) F4=200, o3')
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.xlabel('t')
+plt.grid()
+plt.show()
