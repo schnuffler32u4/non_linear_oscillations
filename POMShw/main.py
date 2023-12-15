@@ -225,7 +225,7 @@ plt.savefig('q2_3.png', dpi=500)
 plt.close()
 
 # code for q2.4
-O = [1/10, 1/5, 1, 5, 10]
+O = [1/10, 1/5, 0.9, 5, 10]
 for o in O:
     solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
     plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
@@ -239,7 +239,7 @@ plt.savefig('q2_4_p2.png', dpi=500)
 plt.close()
 
 for o in O:
-    solm3_F = odeint(model3, y0, t, args=(m, k, p2, o, f))
+    solm3_F = odeint(model3, y0, t, args=(m, k, p2, o, 1.6))
     plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
 
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
