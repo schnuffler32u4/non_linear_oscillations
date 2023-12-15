@@ -225,7 +225,7 @@ plt.savefig('q2_3.png', dpi=500)
 plt.close()
 
 # code for q2.4
-O = [1/10, 1/5, 0.9, 5, 10]
+O = [1/10, 0.9, 1, 10]
 for o in O:
     solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
     plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
@@ -257,7 +257,7 @@ def model_friction(u, t, m, k, p, o, F_0, b):
     dzdt = [y, (F_0/m)*np.sin(o*t)-(k/m)*x**(p-1)- b*y]  # System of first order differential equations [y, y'] Where y=x'
     return dzdt
 
-B = [0.01, 1, 100] 
+B = [0.01, 2, 100] 
 O = np.linspace(1,10,1000)
 
 for b in B:
