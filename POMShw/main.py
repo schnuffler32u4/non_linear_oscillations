@@ -41,15 +41,15 @@ y0 = [1.8, 0]  # Initial conditions [x(0), x'(0)]
 sol_ah = odeint(model1, y0, t, args=(m, k, a1))
 sol_h = odeint(model1, y0, t, args=(m, k, a2))
 
-plt.plot(t, sol_ah[:, 0], 'b', label='x(t) ah')
-plt.plot(t, sol_ah[:, 1], 'g', label="y(t) ah")
-plt.plot(t, sol_h[:, 0], 'r', label='x(t) h')
-plt.plot(t, sol_h[:, 1], 'm', label="y(t) h")
+plt.plot(t, sol_ah[:, 0], label='x(t) ah')
+plt.plot(t, sol_ah[:, 1], label="y(t) ah")
+plt.plot(t, sol_h[:, 0], label='x(t) h')
+plt.plot(t, sol_h[:, 1], label="y(t) h")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.show()
-
+plt.savefig("q1_1.png", dpi=500)
+plt.close()
 
 Amplitudes = [0.5,1.25,1.85,1.95]   #Different Initial conditions for x(0)
 
@@ -72,8 +72,8 @@ for i in range(len(Amplitudes)):
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.show()
-
+plt.savefig('q1_2.png', dpi=500)
+plt.close()
 
 #code for q1.3
 # plots the potentials for harmonic motion, V(x) = (1/2)kx^2, and anharmonic motion V(x) = (1/2)kx^2(1-(2/3)ax) for a=0.1
@@ -94,8 +94,8 @@ plt.title("V(x) for a=0.1")
 plt.xlabel("x")
 plt.ylabel("V(x)")
 plt.grid()
-plt.show()
-
+plt.savefig('q1_3.png', dpi=500)
+plt.close()
 #code for q1.4
 
 #Model 2 has a different EoM due to the change in potential
@@ -131,47 +131,36 @@ plt.plot(t, solm2_ah[:, 1], 'k', label="y(t) ah")
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.xlabel('t')
 plt.grid()
-plt.show()
+plt.savefig('q1_4.png', dpi=500)
+plt.close()
+
+# Code for question 1.5 
 
 p=[2,4,6,8,10]
 
-x1 = np.zeros((len(t),len(p)))   #Create arrays to store results for x(t) & x'(t) for all the different amplitudes
-x1dot = np.zeros((len(t),len(p)))
-
-for i in range(len(p)):
-    solm2_p = odeint(model2, y0, t, args=(m, k, p[i]))
-    x1[:, i] = solm2_p[:, 0]
-    x1dot[:, i] = solm2_p[:, 1]
-
-for i in range(len(p)):
-    plt.plot(t, x1[:, i], label='p={}'.format(p[i]))
-    plt.xlabel('time')
-    plt.ylabel('x(t)')
+for P in p:
+    solm2_h=odeint(model2, y0, t, args=(m,k,P))
+    plt.plot(t, solm2_h[:, 0], label='$x(t), \, p=$'+str(P))
+plt.xlabel("$t$")
+plt.ylabel("$x(t)$")
+plt.title('Comparison of different values of $p$')
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.xlabel('t')
 plt.grid()
-plt.show()
-
+plt.savefig('q1_5_motion.png', dpi=500)
+plt.close()
 
 X2 = np.linspace(-10, 10, 500)
 
-harmonicPotential1 = (1/2)*k*X2**2
-anharmonicPotential1 = np.zeros((len(t),len(X2))) #maybe this should be 3d?
+for P in p:
+     plt.plot(X2 ,(1 / P) * k * X2 ** P, label='$p=$' + str(P))
 
-for i in range(len(p)):
-     np.append(anharmonicPotential1[i], (1 / p[i]) * k * X2 ** p[i])
-
-plt.plot(X2, harmonicPotential1, label='Harmonic')
-
-for i in range(len(p)):
-    plt.plot(X2, anharmonicPotential1[i], label='Anharmonic', ls='--')
-plt.plot(X2, (1 / 4 * k * X2 ** 4), label='Anharmonic 4', ls='--')
-plt.legend(loc='upper center', bbox_to_anchor=(1.35, 1), shadow=True, ncol=1)
-plt.title("V(x) for different p values")
-plt.xlabel("x")
-plt.ylabel("V(x)")
+plt.title("$V(x)$ for different p values")
+plt.xlabel("$x$")
+plt.ylabel("$V(x)$")
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
 plt.grid()
-plt.show()
+plt.savefig('q1_5_potential.png', dpi=500)
+plt.close()
 
 #code for q2.1
 
@@ -180,7 +169,7 @@ plt.show()
 #we keep p=2
 #we keep the same m, k and t
 
-o = 3 #we set omega as 1 for the first part of the exercise for simplicity
+O = [1/4,1/2,4] #we set omega to a different value from the natural frequency of the system
 t = np.linspace(0, 100, 200001)
 def model3(u, t, m, k, p, o, F_0):
     x, y = u
@@ -188,24 +177,128 @@ def model3(u, t, m, k, p, o, F_0):
     return dzdt
 
 y0 = [1.5, 0]
+F = [1,20,50,200]
 
-F1 = 1
-F2 = 20
-F3 = 50
-F4 = 200
+for o in O:
+    for f in F:
+        solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
+        plt.plot(t, solm3_F[:, 0], label='$x(t), \, F=$' + str(f))
 
-solm3_F1 = odeint(model3, y0, t, args=(m, k, p1, o, F1))
-solm3_F2 = odeint(model3, y0, t, args=(m, k, p1, o, F2))
-solm3_F3 = odeint(model3, y0, t, args=(m, k, p1, o, F3))
-solm3_F4 = odeint(model3, y0, t, args=(m, k, p1, o, F4))
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.title('The Gorilla effect for $\omega=$' + str(o) + '$\, p=2$')
+    plt.ylabel('$x(t)$')
+    plt.xlabel('$t$')
+    plt.grid()
+    plt.savefig('q2_1_omega'+ str(o)+'.png', dpi=500)
+    plt.close()
 
-plt.plot(t, solm3_F1[:, 0], 'y', label='x(t) F1=1')
-plt.plot(t, solm3_F2[:, 0], 'r', label='x(t) F2=20')
-plt.plot(t, solm3_F3[:, 0], 'm', label='x(t) F3=50')
-plt.plot(t, solm3_F4[:, 0], 'b', label='x(t) F4=200')
+#code for q2.2
+
+# now setting p = 4
+
+for o in O:
+    for f in F:
+        solm3_F = odeint(model3, y0, t, args=(m, k, p2, o, f))
+        plt.plot(t, solm3_F[:, 0], label='$x(t), \, F=$' + str(f))
+
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.ylabel('$x(t)$')
+    plt.xlabel('$t$')
+    plt.title('The Gorilla effect for $\omega=$' + str(o) + '$\, p=4$')
+    plt.grid()
+    plt.savefig('q2_2_omega'+ str(o)+'.png', dpi=500)
+    plt.close()
+
+# code for q2.3
+O = [0.5, 1.1, 2]
+f = 0.7
+for o in O:
+    solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
+    plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
 plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.xlabel('t')
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
 plt.grid()
-plt.show()
+plt.title('Demonstration of beats')
+plt.savefig('q2_3.png', dpi=500)
+plt.close()
+
+# code for q2.4
+O = [1/10, 1/5, 0.9, 5, 10]
+for o in O:
+    solm3_F = odeint(model3, y0, t, args=(m, k, p1, o, f))
+    plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
+plt.grid()
+plt.title('Comparison of frequencies for $p=2$')
+plt.savefig('q2_4_p2.png', dpi=500)
+plt.close()
+
+for o in O:
+    solm3_F = odeint(model3, y0, t, args=(m, k, p2, o, 1.6))
+    plt.plot(t, solm3_F[:, 0], label='$x(t), \, \omega=$' + str(o))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$t$')
+plt.grid()
+plt.title('Comparison of frequencies for $p=4$')
+plt.savefig('q2_4_p4.png', dpi=500)
+plt.close()
+
+# code for q3.1
+
+def model_friction(u, t, m, k, p, o, F_0, b):
+    x, y = u
+    dzdt = [y, (F_0/m)*np.sin(o*t)-(k/m)*x**(p-1)- b*y]  # System of first order differential equations [y, y'] Where y=x'
+    return dzdt
+
+B = [0.01, 1, 100] 
+O = np.linspace(1,10,1000)
+
+for b in B:
+    amplitudes = [np.amax(odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))[:,0]) for o in O]
+    plt.plot(O, amplitudes, label='$A(\omega), \, b = $' + str(b))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$A(\omega)$')
+plt.xlabel('$\omega$')
+plt.grid()
+plt.title('The relationship between amplitude and frequency for different values of $b$')
+plt.savefig('q3_1.png', dpi=500)
+plt.close()
+
+# code for q3.2
+f = 0.01
+for b in B:
+    sol_friction = odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))
+    plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
+
+plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+plt.ylabel('$x(t)$')
+plt.xlabel('$\omega$')
+plt.grid()
+plt.title('The relationship between position and time for different values of $b, \, F_0=$'+str(f))
+plt.savefig('q3_2.png', dpi=500)
+plt.close()
+
+# code for 3.3
+F = [0.7, 7]
+for f in F:
+    for b in B:
+        sol_friction = odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))
+        plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
+
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.ylabel('$x(t)$')
+    plt.xlabel('$\omega$')
+    plt.grid()
+    plt.title('The relationship between position and time for different values of $b, \, F_0=$'+str(f))
+    plt.savefig('q3_3_f_' +str(f)+'.png', dpi=500)
+    plt.close()
 
 
