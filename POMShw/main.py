@@ -135,7 +135,7 @@ plt.savefig('q1_4.png', dpi=500)
 plt.close()
 
 # Code for question 1.5 
-
+y0 = [1,0]
 p=[2,4,6,8,10]
 
 for P in p:
@@ -149,7 +149,7 @@ plt.grid()
 plt.savefig('q1_5_motion.png', dpi=500)
 plt.close()
 
-X2 = np.linspace(-10, 10, 500)
+X2 = np.linspace(-1.223, 1.223, 500)
 
 for P in p:
      plt.plot(X2 ,(1 / P) * k * X2 ** P, label='$p=$' + str(P))
