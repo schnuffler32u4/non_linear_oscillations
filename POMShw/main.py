@@ -176,7 +176,7 @@ def model3(u, t, m, k, p, o, F_0):
     dzdt = [y, (F_0/m)*np.sin(o*t)-(k/m)*x**(p-1)]  # System of first order differential equations [y, y'] Where y=x'
     return dzdt
 
-y0 = [1.5, 0]
+y0 = [1, 0]
 F = [1,20,50,200]
 
 for o in O:
@@ -257,48 +257,51 @@ def model_friction(u, t, m, k, p, o, F_0, b):
     dzdt = [y, (F_0/m)*np.sin(o*t)-(k/m)*x**(p-1)- b*y]  # System of first order differential equations [y, y'] Where y=x'
     return dzdt
 
-B = [0.01, 1, 100] 
-O = np.linspace(1,10,1000)
-
+B = [0.01, 1, 100]
+O = np.linspace(0.1,10,1000)
+# Note: this loop takes about 2 hours to run
 for b in B:
-    amplitudes = [np.amax(odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))[:,0]) for o in O]
+    amplitudes = [np.amax(odeint(model_friction, y0, np.linspace(0, 20000 * np.pi / o + 1, 100000), args=(m, k, p1, o, f, b))[:,0][90000:]) for o in O]
     plt.plot(O, amplitudes, label='$A(\omega), \, b = $' + str(b))
-
-plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.ylabel('$A(\omega)$')
-plt.xlabel('$\omega$')
-plt.grid()
-plt.title('The relationship between amplitude and frequency for different values of $b$')
-plt.savefig('q3_1.png', dpi=500)
-plt.close()
-
+    plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+    plt.ylabel('$A(\omega)$')
+    plt.xlabel('$\omega$')
+    plt.grid()
+    plt.title('The relationship between amplitude and frequency for $b = $' + str(b))
+    plt.savefig('q3_1b_' + str(b) + '.png', dpi=500)
+    plt.close()
 # code for q3.2
+B = [0.01, 2, 100]
+print(o)
+o = 10
 f = 0.01
-for b in B:
-    sol_friction = odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))
-    plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
-
-plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
-plt.ylabel('$x(t)$')
-plt.xlabel('$\omega$')
-plt.grid()
-plt.title('The relationship between position and time for different values of $b, \, F_0=$'+str(f))
-plt.savefig('q3_2.png', dpi=500)
-plt.close()
-
-# code for 3.3
-F = [0.7, 7]
-for f in F:
+for p in [p1,p2]:
     for b in B:
-        sol_friction = odeint(model_friction, y0, t, args=(m, k, p1, o, f, b))
+        sol_friction = odeint(model_friction, y0, t, args=(m, k, p, o, f, b))
         plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
 
     plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
     plt.ylabel('$x(t)$')
     plt.xlabel('$\omega$')
     plt.grid()
-    plt.title('The relationship between position and time for different values of $b, \, F_0=$'+str(f))
-    plt.savefig('q3_3_f_' +str(f)+'.png', dpi=500)
+    plt.title('$x(t)$ for different values of $b, \, F_0=$'+str(f) + '$, \,p= $ ' + str(p))
+    plt.savefig('q3_2_p_'+ str(p) +'.png', dpi=500)
     plt.close()
+
+# code for 3.3
+F = [1, 10]
+for p in [p1, p2]:
+    for f in F:
+        for b in B:
+            sol_friction = odeint(model_friction, y0, t, args=(m, k, p, o, f, b))
+            plt.plot(t, sol_friction[:, 0], label='$x(t), \, b = $' + str(b))
+
+        plt.legend(loc='upper center', bbox_to_anchor=(1, 1),  shadow=True, ncol=1)
+        plt.ylabel('$x(t)$')
+        plt.xlabel('$\omega$')
+        plt.grid()
+        plt.title('$x(t)$ for different values of $b, \, F_0=$'+str(f) + '$, \, p=$' + str(p))
+        plt.savefig('q3_3_f_' +str(f)+'p_' + str(p) + '.png', dpi=500)
+        plt.close()
 
 
